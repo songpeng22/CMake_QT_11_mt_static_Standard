@@ -32,10 +32,25 @@
     Q_IMPORT_PLUGIN(QtQuickControls2ImagineStylePlugin)
     Q_IMPORT_PLUGIN(QtQuickControls2MaterialStylePlugin)
     Q_IMPORT_PLUGIN(QtQuickControls2UniversalStylePlugin)
+    //${QQMLDIR}QtQuick/Dialogs/dialogplugind.lib
+    Q_IMPORT_PLUGIN(QtQuick2DialogsPlugin)
+/*
     //
-//    Q_IMPORT_PLUGIN(DialogPlugin)
+    Q_IMPORT_PLUGIN(QmlFolderListModelPlugin)
     //
-//    Q_IMPORT_PLUGIN(qmlfolderlistmodelplugin)
+    Q_IMPORT_PLUGIN(QmlSettingsPlugin)
+    //
+    Q_IMPORT_PLUGIN(QtGraphicalEffectsPlugin)
+    //
+    Q_IMPORT_PLUGIN(QtGraphicalEffectsPrivatePlugin)
+    //
+    Q_IMPORT_PLUGIN(QtQmlModelsPlugin)
+    //
+    Q_IMPORT_PLUGIN(QtQuickExtrasPlugin)
+    //
+    Q_IMPORT_PLUGIN(QtQuick2PrivateWidgetsPlugin)
+*/
+
 #endif
 
 int main(int argc, char *argv[]) {

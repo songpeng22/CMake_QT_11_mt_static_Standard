@@ -137,8 +137,16 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC} )
         ${QQMLDIR}QtQuick/Controls.2/Universal/qtquickcontrols2universalstyleplugind.lib
         #
         ${QQMLDIR}QtQuick/Dialogs/dialogplugind.lib
+#[[
         ${QQMLDIR}QtQuick/Dialogs/Private/dialogsprivateplugind.lib
         ${QQMLDIR}Qt/labs/folderlistmodel/qmlfolderlistmodelplugind.lib
+        ${QQMLDIR}Qt/labs/settings/qmlsettingsplugind.lib
+        ${QQMLDIR}QtGraphicalEffects/qtgraphicaleffectsplugind.lib
+        ${QQMLDIR}QtGraphicalEffects/private/qtgraphicaleffectsprivated.lib
+        ${QQMLDIR}QtQml/Models.2/modelsplugind.lib
+        ${QQMLDIR}QtQuick/Extras/qtquickextrasplugind.lib
+        ${QQMLDIR}QtQuick/PrivateWidgets/widgetsplugind.lib
+]]
         )
 elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
     message("CMAKE_BUILD_TYPE: Release")
@@ -176,8 +184,16 @@ elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
         ${QQMLDIR}QtQuick/Controls.2/Universal/qtquickcontrols2universalstyleplugin.lib
         #
         ${QQMLDIR}QtQuick/Dialogs/dialogplugin.lib
+#[[
         ${QQMLDIR}QtQuick/Dialogs/Private/dialogsprivateplugin.lib
         ${QQMLDIR}Qt/labs/folderlistmodel/qmlfolderlistmodelplugin.lib
+        ${QQMLDIR}Qt/labs/settings/qmlsettingsplugin.lib
+        ${QQMLDIR}QtGraphicalEffects/qtgraphicaleffectsplugin.lib
+        ${QQMLDIR}QtGraphicalEffects/private/qtgraphicaleffectsprivate.lib
+        ${QQMLDIR}QtQml/Models.2/modelsplugin.lib
+        ${QQMLDIR}QtQuick/Extras/qtquickextrasplugin.lib
+        ${QQMLDIR}QtQuick/PrivateWidgets/widgetsplugin.lib
+]]
         )
 elseif(CMAKE_BUILD_TYPE STREQUAL Debug)
     message("CMAKE_BUILD_TYPE: Debug  && not static ")
