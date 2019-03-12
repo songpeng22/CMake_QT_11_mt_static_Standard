@@ -15,6 +15,10 @@
     Q_IMPORT_PLUGIN(QtQuick2Plugin)
     //${QQMLDIR}QtQuick/Window.2/windowplugind.lib
     Q_IMPORT_PLUGIN(QtQuick2WindowPlugin)
+    //${QQMLDIR}QtQuick/Controls.2/qtquickcontrols2plugind.lib
+    Q_IMPORT_PLUGIN(QtQuickControls2Plugin)
+    //
+    Q_IMPORT_PLUGIN(QtQuickTemplates2Plugin)
 #endif
 
 int main(int argc, char *argv[]) {

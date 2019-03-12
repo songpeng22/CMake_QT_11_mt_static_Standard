@@ -56,6 +56,7 @@ ENDMACRO()
 # force to use mtd
 IF(QT_STATIC)
     configureMsvcRuntime()
+add_definitions(-DQT_STATICPLUGIN)
 ENDIF(QT_STATIC)
 
 # Find includes in corresponding build directories
@@ -70,7 +71,7 @@ set(CMAKE_AUTORCC ON)
 # Find the QtWidgets library
 find_package( Qt5 REQUIRED 
 # QuickWidgets means CMake would search for ".\lib\cmake\Qt5QuickWidgetsConfig.cmake"
-    COMPONENTS Core Gui Widgets Qml Quick #QuickWidgets QuickControls2
+    COMPONENTS Core Gui Widgets Qml Quick QuickControls2 #QuickWidgets
 )
 
 include_directories(
@@ -80,6 +81,7 @@ include_directories(
     Qt5::Widgets
     Qt5::Qml
     Qt5::Quick
+    Qt5::QuickControls2
 )
 
 # Platform libs
@@ -114,15 +116,16 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC} )
         ${QLIBDIR}Qt5FontDatabaseSupportd.lib
         ${QLIBDIR}qtharfbuzzd.lib
         ${QLIBDIR}Qt5Cored.lib
-#        ${QLIBDIR}Qt5Guid.lib
-#        ${QLIBDIR}Qt5Widgetsd.lib
-
+#        ${QLIBDIR}Qt5QuickControls2d.lib
+        ${QLIBDIR}Qt5QuickTemplates2d.lib
         #plugin-platform
         ${QPLADIR}qwindowsd.lib
         #plugin
         #qml
         ${QQMLDIR}QtQuick.2/qtquick2plugind.lib
         ${QQMLDIR}QtQuick/Window.2/windowplugind.lib
+        ${QQMLDIR}QtQuick/Controls.2/qtquickcontrols2plugind.lib
+        ${QQMLDIR}QtQuick/Templates.2/qtquicktemplates2plugind.lib
         )
 elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
     message("CMAKE_BUILD_TYPE: Release")
@@ -139,15 +142,16 @@ elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
         ${QLIBDIR}Qt5FontDatabaseSupport.lib
         ${QLIBDIR}qtharfbuzz.lib
         ${QLIBDIR}Qt5Core.lib
-#        ${QLIBDIR}Qt5Gui.lib
-#        ${QLIBDIR}Qt5Widgets.lib
-
+#        ${QLIBDIR}Qt5QuickControls2.lib
+        ${QLIBDIR}Qt5QuickTemplates2.lib
         #plugin-platform
         ${QPLADIR}qwindows.lib
         #plugin
         #qml
         ${QQMLDIR}QtQuick.2/qtquick2plugin.lib
         ${QQMLDIR}QtQuick/Window.2/windowplugin.lib
+        ${QQMLDIR}QtQuick/Controls/qtquickcontrolsplugin.lib
+        ${QQMLDIR}QtQuick/Templates.2/qtquicktemplates2plugin.lib
         )
 elseif(CMAKE_BUILD_TYPE STREQUAL Debug)
     message("CMAKE_BUILD_TYPE: Debug  && not static ")
@@ -180,7 +184,6 @@ set_target_properties( ${project_name}
 )
 
 # Must After add_executable
-add_definitions(-DQT_STATICPLUGIN)
 target_link_libraries( ${project_name}
     ${PLIBS}
     ${QLIBS}
@@ -189,6 +192,7 @@ target_link_libraries( ${project_name}
     ${Qt5Widgets_LIBRARIES}
     ${Qt5Qml_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
+    ${Qt5QuickControls2_LIBRARIES}
 )
 
 #Message Test
