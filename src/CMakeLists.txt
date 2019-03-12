@@ -70,7 +70,7 @@ set(CMAKE_AUTORCC ON)
 # Find the QtWidgets library
 find_package( Qt5 REQUIRED 
 # QuickWidgets means CMake would search for ".\lib\cmake\Qt5QuickWidgetsConfig.cmake"
-    COMPONENTS Core Gui Widgets Qml #Quick QuickWidgets QuickControls2
+    COMPONENTS Core Gui Widgets Qml Quick #QuickWidgets QuickControls2
 )
 
 include_directories(
@@ -79,7 +79,21 @@ include_directories(
     Qt5::Gui
     Qt5::Widgets
     Qt5::Qml
+    Qt5::Quick
 )
+
+# Platform libs
+set(PLIBS
+    Dwmapi.lib
+    imm32.lib
+    Mincore.lib
+    Netapi32.lib
+    opengl32.lib
+    Winmm.lib
+    ws2_32.lib
+)
+
+# Qt libs( not originally imported )
 set(QSTATIC C:/Qt/Qt5.10.1_mt_static_normal)
 set(QLIBDIR ${QSTATIC}/lib/)
 set(QPLADIR ${QSTATIC}/plugins/platforms/)
@@ -107,6 +121,8 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC} )
         ${QPLADIR}qwindowsd.lib
         #plugin
         #qml
+        ${QQMLDIR}QtQuick.2/qtquick2plugind.lib
+        ${QQMLDIR}QtQuick/Window.2/windowplugind.lib
         )
 elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
     message("CMAKE_BUILD_TYPE: Release")
@@ -127,10 +143,11 @@ elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
 #        ${QLIBDIR}Qt5Widgets.lib
 
         #plugin-platform
-        ${QPLADIR}qwindowsd.lib
+        ${QPLADIR}qwindows.lib
         #plugin
         #qml
-
+        ${QQMLDIR}QtQuick.2/qtquick2plugin.lib
+        ${QQMLDIR}QtQuick/Window.2/windowplugin.lib
         )
 elseif(CMAKE_BUILD_TYPE STREQUAL Debug)
     message("CMAKE_BUILD_TYPE: Debug  && not static ")
@@ -165,18 +182,13 @@ set_target_properties( ${project_name}
 # Must After add_executable
 add_definitions(-DQT_STATICPLUGIN)
 target_link_libraries( ${project_name}
-    Dwmapi.lib
-    imm32.lib
-    Mincore.lib
-    Netapi32.lib
-    Winmm.lib
-    ws2_32.lib
+    ${PLIBS}
     ${QLIBS}
     ${Qt5Core_LIBRARIES}
     ${Qt5Gui_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
     ${Qt5Qml_LIBRARIES}
-
+    ${Qt5Quick_LIBRARIES}
 )
 
 #Message Test
