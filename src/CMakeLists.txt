@@ -1,0 +1,179 @@
+cmake_minimum_required(VERSION 3.1.0)
+project(Solution)
+
+# set(<variable> <value>
+#    [[CACHE <type> <docstring> [FORCE]] | PARENT_SCOPE])
+set( project_name QmlStandard )
+message( "Project name is: " ${project_name} )
+
+set(QT_STATIC 1)
+message( "QT_STATIC is: " ${QT_STATIC} )
+
+MACRO(configureMsvcRuntime)
+MESSAGE(STATUS "configureMsvcRuntime() called. ")
+    IF(WIN32)
+        # Default to statically-linked runtime.
+        IF("${MSVC_RUNTIME}" STREQUAL "")
+            SET(MSVC_RUNTIME "static")
+        ENDIF()
+
+        # Set compiler options.
+        SET(variables
+            CMAKE_C_FLAGS_DEBUG
+            CMAKE_C_FLAGS_MINSIZEREL
+            CMAKE_C_FLAGS_RELEASE
+            CMAKE_C_FLAGS_RELWITHDEBINFO
+            CMAKE_CXX_FLAGS_DEBUG
+            CMAKE_CXX_FLAGS_MINSIZEREL
+            CMAKE_CXX_FLAGS_RELEASE
+            CMAKE_CXX_FLAGS_RELWITHDEBINFO
+        )
+        IF(${MSVC_RUNTIME} STREQUAL "static")
+            MESSAGE("MSVC -> forcing use of statically-linked runtime.")
+            FOREACH(variable ${variables})
+                IF(${variable} MATCHES "/MD")
+                    STRING(REGEX REPLACE "/MD" "/MT" ${variable} "${${variable}}")
+                ENDIF()
+                IF(${variable} MATCHES "/MDd")
+                    STRING(REGEX REPLACE "/MDd" "/MTd" ${variable} "${${variable}}")
+                ENDIF()
+            ENDFOREACH()
+        ELSE()
+            MESSAGE("MSVC -> forcing use of dynamically-linked runtime.")
+            FOREACH(variable ${variables})
+                IF(${variable} MATCHES "/MT")
+                    STRING(REGEX REPLACE "/MT" "/MD" ${variable} "${${variable}}")
+                ENDIF()
+            ENDFOREACH()
+            FOREACH(variable ${variables})
+                IF(${variable} MATCHES "/MTd")
+                    STRING(REGEX REPLACE "/MTd" "/MDd" ${variable} "${${variable}}")
+                ENDIF()
+            ENDFOREACH()
+        ENDIF()
+    ENDIF()
+ENDMACRO()
+# force to use mtd
+IF(QT_STATIC)
+    configureMsvcRuntime()
+ENDIF(QT_STATIC)
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+# Create code from a list of Qt designer ui files
+set(CMAKE_AUTOUIC ON)
+#handle rcc automatically( handle qrc file )
+set(CMAKE_AUTORCC ON)
+
+# Find the QtWidgets library
+find_package( Qt5 REQUIRED 
+# QuickWidgets means CMake would search for ".\lib\cmake\Qt5QuickWidgetsConfig.cmake"
+    COMPONENTS Core Gui #Widgets Qml Quick QuickWidgets QuickControls2
+)
+
+include_directories(
+# Qt5::Core means there is ".\include\QtCore""
+    Qt5::Core
+    Qt5::Gui
+)
+set(QSTATIC C:/Qt/Qt5.10.1_mt_static_normal)
+set(QLIBDIR ${QSTATIC}/lib/)
+set(QPLADIR ${QSTATIC}/plugins/platforms/)
+set(QPLGDIR ${QSTATIC}/plugins/)
+set(QQMLDIR ${QSTATIC}/qml/)
+if(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC} )
+    message("CMAKE_BUILD_TYPE: Debug")
+        set(QLIBS
+        #lib-platform-base
+        ${QLIBDIR}qtpcre2d.lib
+        ${QLIBDIR}qtlibpngd.lib
+        ${QLIBDIR}qtfreetyped.lib
+        ${QLIBDIR}Qt5PlatformCompositorSupportd.lib
+        ${QLIBDIR}Qt5EventDispatcherSupportd.lib
+        ${QLIBDIR}Qt5AccessibilitySupportd.lib
+        ${QLIBDIR}Qt5ThemeSupportd.lib
+        #lib-control-qml
+        ${QLIBDIR}Qt5FontDatabaseSupportd.lib
+        ${QLIBDIR}qtharfbuzzd.lib
+        ${QLIBDIR}Qt5Cored.lib
+#        ${QLIBDIR}Qt5Guid.lib
+#        ${QLIBDIR}Qt5Widgetsd.lib
+
+        #plugin-platform
+        ${QPLADIR}qwindowsd.lib
+        #plugin
+        #qml
+        )
+elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
+    message("CMAKE_BUILD_TYPE: Release")
+    set(QLIBS
+        #lib-platform-base
+        ${QLIBDIR}qtpcre2.lib
+        ${QLIBDIR}qtlibpng.lib
+        ${QLIBDIR}qtfreetype.lib
+        ${QLIBDIR}Qt5PlatformCompositorSupport.lib
+        ${QLIBDIR}Qt5EventDispatcherSupport.lib
+        ${QLIBDIR}Qt5AccessibilitySupportd.lib
+        ${QLIBDIR}Qt5ThemeSupport.lib
+        #lib-control-qml
+        ${QLIBDIR}Qt5FontDatabaseSupport.lib
+        ${QLIBDIR}qtharfbuzz.lib
+        ${QLIBDIR}Qt5Core.lib
+#        ${QLIBDIR}Qt5Gui.lib
+#        ${QLIBDIR}Qt5Widgets.lib
+
+        #plugin-platform
+        ${QPLADIR}qwindowsd.lib
+        #plugin
+        #qml
+
+        )
+elseif(CMAKE_BUILD_TYPE STREQUAL Debug)
+    message("CMAKE_BUILD_TYPE: Debug  && not static ")
+elseif(CMAKE_BUILD_TYPE STREQUAL Release)
+    message("CMAKE_BUILD_TYPE: Release  && not static ")
+else(CMAKE_BUILD_TYPE STREQUAL Debug)
+    message(FATAL_ERROR "please set CMAKE_BUILD_TYPE = Debug | Release")
+endif(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC})
+
+# Populate a CMake variable with the sources
+FILE(GLOB project_sources
+    main.cpp
+)
+
+FILE(GLOB project_headers
+    *.h
+)
+
+SET( project_resources 
+    main.qrc
+    main.qml
+)
+
+# Tell CMake to create the project executable
+add_executable( ${project_name} WIN32 ${project_sources} ${project_headers} ${project_resources})
+
+set_target_properties( ${project_name}
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin
+)
+
+# Must After add_executable
+add_definitions(-DQT_STATICPLUGIN)
+target_link_libraries( ${project_name}
+    ${QLIBS}
+    ${Qt5Core_LIBRARIES}
+    ${Qt5Gui_LIBRARIES}
+    Dwmapi.lib
+    imm32.lib
+    Mincore.lib
+    Netapi32.lib
+    Winmm.lib
+    ws2_32.lib
+)
+
+#Message Test
+MESSAGE(STATUS "This is test: " ${Qt5Gui_LIBRARIES})
+
