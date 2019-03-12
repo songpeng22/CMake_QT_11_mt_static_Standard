@@ -123,9 +123,22 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC} )
         #plugin
         #qml
         ${QQMLDIR}QtQuick.2/qtquick2plugind.lib
+        #
         ${QQMLDIR}QtQuick/Window.2/windowplugind.lib
+        #
         ${QQMLDIR}QtQuick/Controls.2/qtquickcontrols2plugind.lib
         ${QQMLDIR}QtQuick/Templates.2/qtquicktemplates2plugind.lib
+        #
+        ${QQMLDIR}QtQuick/Layouts/qquicklayoutsplugind.lib
+        #
+        ${QQMLDIR}QtQuick/Controls.2/Fusion/qtquickcontrols2fusionstyleplugind.lib
+        ${QQMLDIR}QtQuick/Controls.2/Imagine/qtquickcontrols2imaginestyleplugind.lib
+        ${QQMLDIR}QtQuick/Controls.2/Material/qtquickcontrols2materialstyleplugind.lib
+        ${QQMLDIR}QtQuick/Controls.2/Universal/qtquickcontrols2universalstyleplugind.lib
+        #
+        ${QQMLDIR}QtQuick/Dialogs/dialogplugind.lib
+        ${QQMLDIR}QtQuick/Dialogs/Private/dialogsprivateplugind.lib
+        ${QQMLDIR}Qt/labs/folderlistmodel/qmlfolderlistmodelplugind.lib
         )
 elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
     message("CMAKE_BUILD_TYPE: Release")
@@ -149,9 +162,22 @@ elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
         #plugin
         #qml
         ${QQMLDIR}QtQuick.2/qtquick2plugin.lib
+        #
         ${QQMLDIR}QtQuick/Window.2/windowplugin.lib
+        #
         ${QQMLDIR}QtQuick/Controls/qtquickcontrolsplugin.lib
         ${QQMLDIR}QtQuick/Templates.2/qtquicktemplates2plugin.lib
+        #
+        ${QQMLDIR}QtQuick/Layouts/qquicklayoutsplugin.lib
+        #
+        ${QQMLDIR}QtQuick/Controls.2/Fusion/qtquickcontrols2fusionstyleplugin.lib
+        ${QQMLDIR}QtQuick/Controls.2/Imagine/qtquickcontrols2imaginestyleplugin.lib
+        ${QQMLDIR}QtQuick/Controls.2/Material/qtquickcontrols2materialstyleplugin.lib
+        ${QQMLDIR}QtQuick/Controls.2/Universal/qtquickcontrols2universalstyleplugin.lib
+        #
+        ${QQMLDIR}QtQuick/Dialogs/dialogplugin.lib
+        ${QQMLDIR}QtQuick/Dialogs/Private/dialogsprivateplugin.lib
+        ${QQMLDIR}Qt/labs/folderlistmodel/qmlfolderlistmodelplugin.lib
         )
 elseif(CMAKE_BUILD_TYPE STREQUAL Debug)
     message("CMAKE_BUILD_TYPE: Debug  && not static ")

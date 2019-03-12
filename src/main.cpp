@@ -16,9 +16,26 @@
     //${QQMLDIR}QtQuick/Window.2/windowplugind.lib
     Q_IMPORT_PLUGIN(QtQuick2WindowPlugin)
     //${QQMLDIR}QtQuick/Controls.2/qtquickcontrols2plugind.lib
+    //${QQMLDIR}QtQuick/Templates.2/qtquicktemplates2plugind.lib
+    //${QLIBDIR}Qt5QuickTemplates2d.lib
     Q_IMPORT_PLUGIN(QtQuickControls2Plugin)
-    //
+    //${QQMLDIR}QtQuick/Templates.2/qtquicktemplates2plugind.lib
+    //${QLIBDIR}Qt5QuickTemplates2d.lib
     Q_IMPORT_PLUGIN(QtQuickTemplates2Plugin)
+    //${QQMLDIR}QtQuick/Layouts/qquicklayoutsplugind.lib
+    Q_IMPORT_PLUGIN(QtQuickLayoutsPlugin)
+    //${QQMLDIR}QtQuick/Controls.2/Fusion/qtquickcontrols2fusionstyleplugin.lib
+    //${QQMLDIR}QtQuick/Controls.2/Imagine/qtquickcontrols2imaginestyleplugin.lib
+    //${QQMLDIR}QtQuick/Controls.2/Material/qtquickcontrols2materialstyleplugin.lib
+    //${QQMLDIR}QtQuick/Controls.2/Universal/qtquickcontrols2universalstyleplugin.lib
+    Q_IMPORT_PLUGIN(QtQuickControls2FusionStylePlugin)
+    Q_IMPORT_PLUGIN(QtQuickControls2ImagineStylePlugin)
+    Q_IMPORT_PLUGIN(QtQuickControls2MaterialStylePlugin)
+    Q_IMPORT_PLUGIN(QtQuickControls2UniversalStylePlugin)
+    //
+//    Q_IMPORT_PLUGIN(DialogPlugin)
+    //
+//    Q_IMPORT_PLUGIN(qmlfolderlistmodelplugin)
 #endif
 
 int main(int argc, char *argv[]) {
