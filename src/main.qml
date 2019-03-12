@@ -9,4 +9,8 @@ Window {
     height: 400
     title: qsTr("Hello World")
 
+    Rectangle{
+        anchors.fill: parent
+        color:"red"
+    }
 }
