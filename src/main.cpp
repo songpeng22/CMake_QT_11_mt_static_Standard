@@ -1,9 +1,8 @@
 #include "main.h"
-/*
 #include <QApplication>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-*/
+
 //For static link
 #ifdef QT_STATIC
     #include <QtCore/QtPlugin>
@@ -12,12 +11,12 @@
 #endif
 
 int main(int argc, char *argv[]) {
-/*
+/**/
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-*/
+
 }
 
 

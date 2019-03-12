@@ -1,3 +1,5 @@
+# exclude folders
+[Bb]in
 # C++ objects and libs
 *.slo
 *.lo
