@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.1.0)
+include("recursive_search.cmake")
+
 project(Solution)
 
 # set(<variable> <value>
@@ -85,15 +87,19 @@ include_directories(
 )
 
 # set library directory
-set(QSTATIC C:/Qt/Qt5.10.1_mt_static_normal)
-set(QLIBDIR ${QSTATIC}/lib/)
-set(QPLADIR ${QSTATIC}/plugins/platforms/)
-set(QPLGDIR ${QSTATIC}/plugins/)
-set(QQMLDIR ${QSTATIC}/qml/)
+set(QSTATIC C:/Qt/Qt5.10.1_mt_static_normal/)
+set(QLIBDIR ${QSTATIC}lib/)
+set(QPLADIR ${QSTATIC}plugins/platforms/)
+set(QPLGDIR ${QSTATIC}plugins/)
+set(QQMLDIR ${QSTATIC}qml/)
 
 # add library directory
+RECURSIVE_SEARCH( ${QPLGDIR}*.lib QPLGDIR_list )
+RECURSIVE_SEARCH( ${QQMLDIR}*.lib QQMLDIR_list )
 link_directories(
     ${QLIBDIR}
+    ${QPLGDIR_list}
+    ${QQMLDIR_list}
 )
 
 # Platform libs
