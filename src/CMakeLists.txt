@@ -84,6 +84,18 @@ include_directories(
     Qt5::QuickControls2
 )
 
+# set library directory
+set(QSTATIC C:/Qt/Qt5.10.1_mt_static_normal)
+set(QLIBDIR ${QSTATIC}/lib/)
+set(QPLADIR ${QSTATIC}/plugins/platforms/)
+set(QPLGDIR ${QSTATIC}/plugins/)
+set(QQMLDIR ${QSTATIC}/qml/)
+
+# add library directory
+link_directories(
+    ${QLIBDIR}
+)
+
 # Platform libs
 set(PLIBS
     Dwmapi.lib
@@ -96,28 +108,23 @@ set(PLIBS
 )
 
 # Qt libs( not originally imported )
-set(QSTATIC C:/Qt/Qt5.10.1_mt_static_normal)
-set(QLIBDIR ${QSTATIC}/lib/)
-set(QPLADIR ${QSTATIC}/plugins/platforms/)
-set(QPLGDIR ${QSTATIC}/plugins/)
-set(QQMLDIR ${QSTATIC}/qml/)
 if(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC} )
     message("CMAKE_BUILD_TYPE: Debug")
         set(QLIBS
         #lib-platform-base
-        ${QLIBDIR}qtpcre2d.lib
-        ${QLIBDIR}qtlibpngd.lib
-        ${QLIBDIR}qtfreetyped.lib
-        ${QLIBDIR}Qt5PlatformCompositorSupportd.lib
-        ${QLIBDIR}Qt5EventDispatcherSupportd.lib
-        ${QLIBDIR}Qt5AccessibilitySupportd.lib
-        ${QLIBDIR}Qt5ThemeSupportd.lib
+        qtpcre2d.lib
+        qtlibpngd.lib
+        qtfreetyped.lib
+        Qt5PlatformCompositorSupportd.lib
+        Qt5EventDispatcherSupportd.lib
+        Qt5AccessibilitySupportd.lib
+        Qt5ThemeSupportd.lib
         #lib-control-qml
-        ${QLIBDIR}Qt5FontDatabaseSupportd.lib
-        ${QLIBDIR}qtharfbuzzd.lib
-        ${QLIBDIR}Qt5Cored.lib
-#        ${QLIBDIR}Qt5QuickControls2d.lib
-        ${QLIBDIR}Qt5QuickTemplates2d.lib
+        Qt5FontDatabaseSupportd.lib
+        qtharfbuzzd.lib
+        Qt5Cored.lib
+#       Qt5QuickControls2d.lib
+        Qt5QuickTemplates2d.lib
         #plugin-platform
         ${QPLADIR}qwindowsd.lib
         #plugin
@@ -152,19 +159,19 @@ elseif(CMAKE_BUILD_TYPE STREQUAL Release AND ${QT_STATIC} )
     message("CMAKE_BUILD_TYPE: Release")
     set(QLIBS
         #lib-platform-base
-        ${QLIBDIR}qtpcre2.lib
-        ${QLIBDIR}qtlibpng.lib
-        ${QLIBDIR}qtfreetype.lib
-        ${QLIBDIR}Qt5PlatformCompositorSupport.lib
-        ${QLIBDIR}Qt5EventDispatcherSupport.lib
-        ${QLIBDIR}Qt5AccessibilitySupportd.lib
-        ${QLIBDIR}Qt5ThemeSupport.lib
+        qtpcre2.lib
+        qtlibpng.lib
+        qtfreetype.lib
+        Qt5PlatformCompositorSupport.lib
+        Qt5EventDispatcherSupport.lib
+        Qt5AccessibilitySupportd.lib
+        Qt5ThemeSupport.lib
         #lib-control-qml
-        ${QLIBDIR}Qt5FontDatabaseSupport.lib
-        ${QLIBDIR}qtharfbuzz.lib
-        ${QLIBDIR}Qt5Core.lib
-#        ${QLIBDIR}Qt5QuickControls2.lib
-        ${QLIBDIR}Qt5QuickTemplates2.lib
+        Qt5FontDatabaseSupport.lib
+        qtharfbuzz.lib
+        Qt5Core.lib
+#        Qt5QuickControls2.lib
+        Qt5QuickTemplates2.lib
         #plugin-platform
         ${QPLADIR}qwindows.lib
         #plugin
