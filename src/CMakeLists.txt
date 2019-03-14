@@ -97,8 +97,11 @@ set(QPLGDIR ${QSTATIC}plugins/)
 set(QQMLDIR ${QSTATIC}qml/)
 
 # add library directory
-RECURSIVE_SEARCH( ${QPLGDIR}*.lib QPLGDIR_list )
-RECURSIVE_SEARCH( ${QQMLDIR}*.lib QQMLDIR_list )
+RECURSIVE_SEARCH_DIR( ${QPLGDIR}*.lib QPLGDIR_list )
+RECURSIVE_SEARCH_DIR( ${QQMLDIR}*.lib QQMLDIR_list )
+RECURSIVE_SEARCH_NAME( ${QLIBDIR}*d.lib QLIBDIR_namelist )
+RECURSIVE_SEARCH_NAME( ${QPLGDIR}*d.lib QPLGDIR_namelist )
+RECURSIVE_SEARCH_NAME( ${QQMLDIR}*d.lib QQMLDIR_namelist )
 link_directories(
     ${QLIBDIR}
     ${QPLGDIR_list}
@@ -236,6 +239,7 @@ FILE(GLOB project_headers
 )
 
 SET( project_resources 
+    recursive_search.cmake
     main.qrc
     main.qml
     method2.qml
@@ -252,7 +256,6 @@ set_target_properties( ${project_name}
 # Must After add_executable
 target_link_libraries( ${project_name}
     ${PLIBS}
-    ${QLIBS}
     ${Qt5Core_LIBRARIES}
     ${Qt5Gui_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
@@ -260,6 +263,16 @@ target_link_libraries( ${project_name}
     ${Qt5Quick_LIBRARIES}
     ${Qt5QuickControls2_LIBRARIES}
     ${Qt5QuickWidgets_LIBRARIES}
+#[[]]
+        ${QLIBS}
+
+#[[
+    ${QLIBDIR_namelist}
+    ${QPLGDIR_namelist}
+    ${QQMLDIR_namelist}
+]]
+
+
 )
 
 #Message Test

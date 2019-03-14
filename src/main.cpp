@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
     return app.exec();
 }
 
-#elif 1
+#elif 0
 
 /*
 * Call QML : Method 2
@@ -189,11 +189,11 @@ int main(int argc, char *argv[]) {
     qmlObjectSub = FindSubObjectByObjectName(qmlObjectParent, "objButton1");
     if (Q_NULLPTR == qmlObjectSub)
         return -1;
-
+/*
     QPushButton * btn = (QPushButton *) qmlObjectSub;
     if (btn)
         btn->setProperty("text", "textNew3");
-
+*/
     return app.exec();
 }
 
