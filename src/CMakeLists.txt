@@ -87,7 +87,7 @@ include_directories(
 )
 
 # set library directory
-set(QSTATIC C:/Qt/Qt5.10.1_mt_static_normal/)
+set(QSTATIC C:/Qt/Qt5.10.1_mt_static_vs2013/)
 set(QLIBDIR ${QSTATIC}lib/)
 set(QPLADIR ${QSTATIC}plugins/platforms/)
 set(QPLGDIR ${QSTATIC}plugins/)
@@ -106,11 +106,13 @@ link_directories(
 set(PLIBS
     Dwmapi.lib
     imm32.lib
-    Mincore.lib
+    iphlpapi.lib
     Netapi32.lib
     opengl32.lib
     Winmm.lib
     ws2_32.lib
+    version.lib#Mincore.lib
+    userenv.lib
 )
 
 # Qt libs( not originally imported )
@@ -213,7 +215,8 @@ elseif(CMAKE_BUILD_TYPE STREQUAL Debug)
 elseif(CMAKE_BUILD_TYPE STREQUAL Release)
     message("CMAKE_BUILD_TYPE: Release  && not static ")
 else(CMAKE_BUILD_TYPE STREQUAL Debug)
-    message(FATAL_ERROR "please set CMAKE_BUILD_TYPE = Debug | Release")
+	message("CMAKE_BUILD_TYPE is: " ${CMAKE_BUILD_TYPE} )
+    #message(FATAL_ERROR "please set CMAKE_BUILD_TYPE = Debug | Release")
 endif(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC})
 
 # Populate a CMake variable with the sources
