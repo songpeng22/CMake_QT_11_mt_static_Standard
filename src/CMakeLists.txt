@@ -75,7 +75,7 @@ set(CMAKE_AUTORCC ON)
 # Find the QtWidgets library
 find_package( Qt5 REQUIRED 
 # QuickWidgets means CMake would search for ".\lib\cmake\Qt5QuickWidgetsConfig.cmake"
-    COMPONENTS Core Gui Widgets Qml Quick QuickControls2 #QuickWidgets
+    COMPONENTS Core Gui Widgets Qml Quick QuickControls2 QuickWidgets
 )
 
 include_directories(
@@ -86,6 +86,7 @@ include_directories(
     Qt5::Qml
     Qt5::Quick
     Qt5::QuickControls2
+    Qt5::QuickWidgets
 )
 
 # set library directory
@@ -226,6 +227,8 @@ endif(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC})
 # Populate a CMake variable with the sources
 FILE(GLOB project_sources
     main.cpp
+    EngineReloader.cpp
+    EngineReloaderWrapper.cpp
 )
 
 FILE(GLOB project_headers
@@ -235,6 +238,7 @@ FILE(GLOB project_headers
 SET( project_resources 
     main.qrc
     main.qml
+    method2.qml
 )
 
 # Tell CMake to create the project executable
@@ -255,6 +259,7 @@ target_link_libraries( ${project_name}
     ${Qt5Qml_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
     ${Qt5QuickControls2_LIBRARIES}
+    ${Qt5QuickWidgets_LIBRARIES}
 )
 
 #Message Test
