@@ -8,6 +8,8 @@ project(Solution)
 set( project_name QmlStandard )
 message( "Project name is: " ${project_name} )
 
+# manual settings
+set(CMAKE_BUILD_TYPE Debug)
 set(QT_STATIC 1)
 message( "QT_STATIC is: " ${QT_STATIC} )
 
