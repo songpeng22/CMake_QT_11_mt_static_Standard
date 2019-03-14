@@ -33,23 +33,25 @@
     Q_IMPORT_PLUGIN(QtQuickControls2MaterialStylePlugin)
     Q_IMPORT_PLUGIN(QtQuickControls2UniversalStylePlugin)
     //${QQMLDIR}QtQuick/Dialogs/dialogplugind.lib
+    //QtQuick/Dialogs/Private/dialogsprivateplugind.lib
     Q_IMPORT_PLUGIN(QtQuick2DialogsPlugin)
-/*
-    //
+    Q_IMPORT_PLUGIN(QtQuick2DialogsPrivatePlugin)
+    //${QQMLDIR}Qt/labs/folderlistmodel/qmlfolderlistmodelplugind.lib
     Q_IMPORT_PLUGIN(QmlFolderListModelPlugin)
-    //
+    //${QQMLDIR}Qt/labs/settings/qmlsettingsplugin.lib
     Q_IMPORT_PLUGIN(QmlSettingsPlugin)
-    //
+    //${QQMLDIR}QtGraphicalEffects/qtgraphicaleffectsplugin.lib
     Q_IMPORT_PLUGIN(QtGraphicalEffectsPlugin)
-    //
+    //${QQMLDIR}QtGraphicalEffects/private/qtgraphicaleffectsprivate.lib
     Q_IMPORT_PLUGIN(QtGraphicalEffectsPrivatePlugin)
-    //
+    //${QQMLDIR}QtQml/Models.2/modelsplugin.lib
     Q_IMPORT_PLUGIN(QtQmlModelsPlugin)
-    //
+    //${QQMLDIR}QtQuick/Extras/qtquickextrasplugin.lib
     Q_IMPORT_PLUGIN(QtQuickExtrasPlugin)
-    //
+    //${QQMLDIR}QtQuick/PrivateWidgets/widgetsplugin.lib
     Q_IMPORT_PLUGIN(QtQuick2PrivateWidgetsPlugin)
-*/
+    //QtQuick\Controls/qtquickcontrolsplugind.lib
+    Q_IMPORT_PLUGIN(QtQuickControls1Plugin)
 
 #endif
 
