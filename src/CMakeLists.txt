@@ -1,5 +1,11 @@
+# CMake Settings
 cmake_minimum_required(VERSION 3.1.0)
+# CMake Include
 include("recursive_search.cmake")
+include("choose_qt_sdk.cmake")
+# CMake Find Package Path
+CHOOSE_QT_SDK( QT_MSVC2013_32_STATIC )
+set(CMAKE_BUILD_TYPE Debug)
 
 project(Solution)
 
@@ -9,7 +15,6 @@ set( project_name QmlStandard )
 message( "Project name is: " ${project_name} )
 
 # manual settings
-set(CMAKE_BUILD_TYPE Debug)
 set(QT_STATIC 1)
 message( "QT_STATIC is: " ${QT_STATIC} )
 
@@ -239,6 +244,7 @@ FILE(GLOB project_headers
 )
 
 SET( project_resources 
+    choose_qtsdk.cmake
     recursive_search.cmake
     main.qrc
     main.qml
