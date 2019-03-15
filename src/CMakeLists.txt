@@ -4,7 +4,11 @@ cmake_minimum_required(VERSION 3.1.0)
 include("recursive_search.cmake")
 include("choose_qt_sdk.cmake")
 # CMake Find Package Path
-CHOOSE_QT_SDK( QT_MSVC2013_32_STATIC )
+if( NOT DEFINED CMAKE_PREFIX_PATH )
+    CHOOSE_QT_SDK( QT_MSVC2015_32 )
+else()
+    message( "CMAKE_PREFIX_PATH from env: " ${CMAKE_PREFIX_PATH} )
+endif( NOT DEFINED CMAKE_PREFIX_PATH )
 set(CMAKE_BUILD_TYPE Debug)
 
 project(Solution)
@@ -244,7 +248,7 @@ FILE(GLOB project_headers
 )
 
 SET( project_resources 
-    choose_qtsdk.cmake
+    choose_qt_sdk.cmake
     recursive_search.cmake
     main.qrc
     main.qml
