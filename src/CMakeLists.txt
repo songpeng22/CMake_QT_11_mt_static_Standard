@@ -5,10 +5,11 @@ include("recursive_search.cmake")
 include("choose_qt_sdk.cmake")
 # CMake Find Package Path
 if( NOT DEFINED CMAKE_PREFIX_PATH )
-    CHOOSE_QT_SDK( QT_MSVC2015_32 )
+    CHOOSE_QT_SDK( QT_MSVC2013_32_STATIC )
 else()
     message( "CMAKE_PREFIX_PATH from env: " ${CMAKE_PREFIX_PATH} )
 endif( NOT DEFINED CMAKE_PREFIX_PATH )
+# CMake Debug
 set(CMAKE_BUILD_TYPE Debug)
 
 project(Solution)
