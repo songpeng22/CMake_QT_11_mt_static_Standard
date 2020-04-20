@@ -20,6 +20,8 @@
 #include <QQuickWindow>
 #include <QQuickItem>
 
+#include "Widget.h"
+
 //For static link
 #ifdef QT_STATIC
     //Qt
@@ -72,7 +74,21 @@
 
 #endif
 
-#if 0
+#if 1
+/*
+ * QT
+ */
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    Widget w;
+    w.resize(960,640);
+    w.show();
+ 
+    return a.exec();
+}
+
+#elif 0
 
 int main(int argc, char *argv[])
 {

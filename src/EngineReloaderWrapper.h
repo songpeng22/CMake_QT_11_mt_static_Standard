@@ -15,7 +15,6 @@ private:
     virtual void afterLoad();
     virtual void setContextProperies( QQmlContext * pQmlContext );
     virtual void registerToQml();
-    void Clear();
 private:
     QString m_subQmlName;
 };

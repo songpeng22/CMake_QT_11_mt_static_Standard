@@ -1,91 +1,91 @@
+message( "***************************QML static CMake Start**********************************" )
 # CMake Settings
 cmake_minimum_required(VERSION 3.1.0)
+# CMake Global Settings
+message( "---------------------------Global Settings----------------------------------" )
+set(CMAKE_BUILD_TYPE Debug)       # CMAKE_BUILD_TYPE
+set(QT_STATIC 1)                  # QT_STATIC
+set(REMOTE_DEBUG 1)               # REMOTE_DEBUG
+message("CMAKE_BUILD_TYPE:" ${CMAKE_BUILD_TYPE})
+message( "QT_STATIC is: " ${QT_STATIC} )
+message( "REMOTE_DEBUG is: " ${REMOTE_DEBUG} )
 # CMake Include
 include("recursive_search.cmake")
 include("choose_qt_sdk.cmake")
+include("force_mtd.cmake")
 # CMake Find Package Path
 if( NOT DEFINED CMAKE_PREFIX_PATH )
     CHOOSE_QT_SDK( QT_MSVC2013_32_STATIC )
 else()
     message( "CMAKE_PREFIX_PATH from env: " ${CMAKE_PREFIX_PATH} )
 endif( NOT DEFINED CMAKE_PREFIX_PATH )
-# CMake Debug
-set(CMAKE_BUILD_TYPE Debug)
 
+# Solution Settings
+message( "---------------------------Solution part----------------------------------" )
 project(Solution)
 
 # set(<variable> <value>
 #    [[CACHE <type> <docstring> [FORCE]] | PARENT_SCOPE])
-set( project_name QmlStandard )
+set( project_name QmlStatic )
 message( "Project name is: " ${project_name} )
 
-# manual settings
-set(QT_STATIC 1)
-message( "QT_STATIC is: " ${QT_STATIC} )
-
-MACRO(configureMsvcRuntime)
-MESSAGE(STATUS "configureMsvcRuntime() called. ")
-    IF(WIN32)
-        # Default to statically-linked runtime.
-        IF("${MSVC_RUNTIME}" STREQUAL "")
-            SET(MSVC_RUNTIME "static")
-        ENDIF()
-
-        # Set compiler options.
-        SET(variables
-            CMAKE_C_FLAGS_DEBUG
-            CMAKE_C_FLAGS_MINSIZEREL
-            CMAKE_C_FLAGS_RELEASE
-            CMAKE_C_FLAGS_RELWITHDEBINFO
-            CMAKE_CXX_FLAGS_DEBUG
-            CMAKE_CXX_FLAGS_MINSIZEREL
-            CMAKE_CXX_FLAGS_RELEASE
-            CMAKE_CXX_FLAGS_RELWITHDEBINFO
-        )
-        IF(${MSVC_RUNTIME} STREQUAL "static")
-            MESSAGE("MSVC -> forcing use of statically-linked runtime.")
-            FOREACH(variable ${variables})
-                IF(${variable} MATCHES "/MD")
-                    STRING(REGEX REPLACE "/MD" "/MT" ${variable} "${${variable}}")
-                ENDIF()
-                IF(${variable} MATCHES "/MDd")
-                    STRING(REGEX REPLACE "/MDd" "/MTd" ${variable} "${${variable}}")
-                ENDIF()
-            ENDFOREACH()
-        ELSE()
-            MESSAGE("MSVC -> forcing use of dynamically-linked runtime.")
-            FOREACH(variable ${variables})
-                IF(${variable} MATCHES "/MT")
-                    STRING(REGEX REPLACE "/MT" "/MD" ${variable} "${${variable}}")
-                ENDIF()
-            ENDFOREACH()
-            FOREACH(variable ${variables})
-                IF(${variable} MATCHES "/MTd")
-                    STRING(REGEX REPLACE "/MTd" "/MDd" ${variable} "${${variable}}")
-                ENDIF()
-            ENDFOREACH()
-        ENDIF()
-    ENDIF()
-ENDMACRO()
+message( "---------------------------runtime defines----------------------------------" )
 # force to use mtd
+configureMsvcRuntime()
 IF(QT_STATIC)
-    configureMsvcRuntime()
-add_definitions(-DQT_STATICPLUGIN)
+	add_definitions(-DQT_STATICPLUGIN)
 ENDIF(QT_STATIC)
 
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-# Instruct CMake to run moc automatically when needed
-set(CMAKE_AUTOMOC ON)
-# Create code from a list of Qt designer ui files
-set(CMAKE_AUTOUIC ON)
-#handle rcc automatically( handle qrc file )
-set(CMAKE_AUTORCC ON)
+# add compiler support
+IF (WIN32)
+  SET(OS_PREFIX winnt_x86)
+  ADD_DEFINITIONS(
+  -DLW_LITTLEENDIAN
+  -D__WXMSW__
+  -DLW_OS_WINDOWS
+  -DWIN32
+  -D_WINDOWS
+  -DBOS_UTF8
+  -DLW_UTF8
+  -D_UNICODE
+  -DUNICODE
+  -DNOPCH
+  -DwxUSE_GUI=1
+  )
+ENDIF()
+
+IF(WIN32)
+  IF( MSVC )
+	# Debug
+	SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /D_DEBUG /D__WXDEBUG__ /DLW_IS_DEBUG /W4 /Zi /Od /Ob1 /MTd /fp:precise /fp:except-")
+	SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_DEBUG /D__WXDEBUG__ /DLW_IS_DEBUG /W4 /Zi /Od /Ob1 /MTd /fp:precise /fp:except-")
+	SET (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO /DYNAMICBASE:NO ")	#/NODEFAULTLIB:LIBCMTD.lib /NODEFAULTLIB:libcpmtd.lib /NODEFAULTLIB:boost_system.lib /NODEFAULTLIB:boost_thread.lib
+	# Release
+	SET (CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /W3 /Zi /Od /Ob1 /GF /EHsc /MT /Gy /fp:precise /fp:except- /Zc:wchar_t /Gd /TC")
+#	SET (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Zi /Od /Ob1 /GF /EHsc /MT /Gy /fp:precise /fp:except- /Zc:wchar_t /Gd /TP")#
+	SET (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO /DYNAMICBASE:NO ")	#/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:libcpmt.lib /NODEFAULTLIB:boost_system.lib /NODEFAULTLIB:boost_thread.lib
+	message ("CMAKE_CXX_FLAGS_DEBUG: " "${CMAKE_CXX_FLAGS_DEBUG}")
+  ENDIF()
+ELSE()
+#	SET(CMAKE_INSTALL_PREFIX "/usr/local/bizerba/oem-2.31/bin")
+	SET(CMAKE_C_FLAGS "-m32 ${CMAKE_C_FLAGS}")
+	SET(CMAKE_CXX_FLAGS "-m32 ${CMAKE_CXX_FLAGS}")
+	SET (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m32")
+	message ("CompilerFlags: " "${CompilerFlag}")
+	message ("LinkerFlags: " "${CMAKE_EXE_LINKER_FLAGS}")
+	
+ENDIF()
+
+# CMake Qt
+message( "---------------------------Qt part----------------------------------" )
+set(CMAKE_INCLUDE_CURRENT_DIR ON)   # Find includes in corresponding build directories
+set(CMAKE_AUTOMOC ON)               # CMake moc automatically when needed
+set(CMAKE_AUTOUIC ON)               # Create code from a list of Qt designer ui files
+set(CMAKE_AUTORCC ON)               # CMake rcc automatically( handle qrc file )
 
 # Find the QtWidgets library
 find_package( Qt5 REQUIRED 
-# QuickWidgets means CMake would search for ".\lib\cmake\Qt5QuickWidgetsConfig.cmake"
-    COMPONENTS Core Gui Widgets Qml Quick QuickControls2 QuickWidgets
+    COMPONENTS Core Gui Widgets Qml Quick QuickControls2 QuickWidgets #Network Multimedia
 )
 
 include_directories(
@@ -242,6 +242,7 @@ FILE(GLOB project_sources
     main.cpp
     EngineReloader.cpp
     EngineReloaderWrapper.cpp
+    Widget.cpp
 )
 
 FILE(GLOB project_headers
@@ -251,10 +252,20 @@ FILE(GLOB project_headers
 SET( project_resources 
     choose_qt_sdk.cmake
     recursive_search.cmake
+	force_mtd.cmake
     main.qrc
     main.qml
     method2.qml
 )
+
+SOURCE_GROUP("Source Files" FILES ${project_sources})
+SOURCE_GROUP("Header Files" FILES ${project_headers})
+SOURCE_GROUP("Resource Files" FILES ${project_resources})
+
+# mark as startup project
+IF(WIN32 AND MSVC)
+	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${project_name})
+ENDIF()
 
 # Tell CMake to create the project executable
 add_executable( ${project_name} WIN32 ${project_sources} ${project_headers} ${project_resources})
@@ -275,7 +286,7 @@ target_link_libraries( ${project_name}
     ${Qt5QuickControls2_LIBRARIES}
     ${Qt5QuickWidgets_LIBRARIES}
 #[[]]
-        ${QLIBS}
+    ${QLIBS}
 
 #[[
     ${QLIBDIR_namelist}
@@ -288,4 +299,5 @@ target_link_libraries( ${project_name}
 
 #Message Test
 MESSAGE(STATUS "This is test: " ${Qt5Gui_LIBRARIES})
+message( "***************************QML static CMake End**********************************" )
 
