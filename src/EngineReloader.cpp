@@ -34,7 +34,18 @@ void EngineReloader::reload()
 
     qmlClearTypeRegistrations();
 
-    QQuickStyle::setStyle(m_style);
+    if (!initSkin()) {
+		//do not implement initSkin,use default style if have one
+		QQuickStyle::setStyle(m_style);
+		qDebug() << "initSkin:no;setStyle:yes";
+	}
+	else
+	{
+		//after initSkin , read conf
+		m_style = readConf();
+		QQuickStyle::setStyle(m_style);
+	}
+
     m_instance = new QQmlApplicationEngine(this);
     m_qmlContext = m_instance->rootContext();
     this->beforeLoad();

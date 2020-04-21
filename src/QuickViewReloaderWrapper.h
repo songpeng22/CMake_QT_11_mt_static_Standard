@@ -1,17 +1,15 @@
-#ifndef _ENGINE_RELOADER_WRAPPER_H__
-#define _ENGINE_RELOADER_WRAPPER_H__
+#ifndef _QUICKVIEW_RELOADER_WRAPPER_H__
+#define _QUICKVIEW_RELOADER_WRAPPER_H__
 
-#include "EngineReloader.h"
+#include "QuickViewReloader.h"
 #include "Resource.h"
 #include "Settings.h"
 
-class EngineReloaderWrapper : public EngineReloader
+class QuickViewReloaderWrapper : public QuickViewReloader
 {
 public:
-    EngineReloaderWrapper();
-    ~EngineReloaderWrapper();
-public slots:
-    virtual void setReloadSubQml( QString qsFile );
+    QuickViewReloaderWrapper();
+    ~QuickViewReloaderWrapper();
 private:
     virtual bool initSkin();
     virtual QString readConf();
@@ -19,12 +17,11 @@ private:
     virtual void afterLoad();
     virtual void setContextProperies( QQmlContext * pQmlContext );
     virtual void registerToQml();
+    void Clear();
 protected:
     Resource *m_res;
     Settings *m_settings;
-private:
-    QString m_subQmlName;
 };
 
 
-#endif//_ENGINE_RELOADER_WRAPPER_H__
+#endif//_QUICKVIEW_RELOADER_WRAPPER_H__

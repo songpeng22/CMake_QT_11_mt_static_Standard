@@ -1,18 +1,19 @@
-#include "EngineReloaderWrapper.h"
+#include "QuickViewReloaderWrapper.h"
 //API
 #include <QQmlContext>
 #include <QGuiApplication>
-
+#include <QDir>
 //
 #include "GlobalVariant.h"
+#include "KroemWes.h"
 
-EngineReloaderWrapper::EngineReloaderWrapper()
+QuickViewReloaderWrapper::QuickViewReloaderWrapper()
 {
     m_res = new Resource();
 	m_settings = new Settings();
 }
 
-EngineReloaderWrapper::~EngineReloaderWrapper()
+QuickViewReloaderWrapper::~QuickViewReloaderWrapper()
 {
     if( m_res ){
         delete m_res;
@@ -24,7 +25,7 @@ EngineReloaderWrapper::~EngineReloaderWrapper()
 	}
 }
 
-QString EngineReloaderWrapper::readConf()
+QString QuickViewReloaderWrapper::readConf()
 {
 	//read conf in new skin
 	QString skinConfFileName = ":qtquickcontrols2.conf";
@@ -39,7 +40,7 @@ QString EngineReloaderWrapper::readConf()
 	return styleName;
 }
 
-bool EngineReloaderWrapper::initSkin()
+bool QuickViewReloaderWrapper::initSkin()
 {
 	//form ini file name
 #if 1
@@ -59,8 +60,11 @@ bool EngineReloaderWrapper::initSkin()
 	}
 	else {
 		qDebug() << "ini string not Ready , set one";
-		m_res->setIniDirPath(QCoreApplication::applicationDirPath());
-		m_res->setIniFileName(iniFileName/*"posscale.ini"*/);
+
+        QString iniFilePath = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).at(1);
+		m_res->setIniDirPath(iniFilePath/*QCoreApplication::applicationDirPath()*/);
+		m_res->setIniFileName("posscale.ini"/*iniFileName*//*"posscale.ini"*/);
+        m_res->setRccDirPath(QCoreApplication::applicationDirPath());
 	}
 	m_res->reloadSkin();
 
@@ -68,52 +72,54 @@ bool EngineReloaderWrapper::initSkin()
 	return true;
 }
 
-void EngineReloaderWrapper::setContextProperies(QQmlContext * pQmlContext)
+void QuickViewReloaderWrapper::setContextProperies(QQmlContext * pQmlContext)
 {
-    qDebug() << "EngineReloaderWrapper::setContextProperies()";
-
-    //Engine
-    pQmlContext->setContextProperty("engine", this);
+    qDebug() << "+QuickViewReloaderWrapper::setContextProperies()";
+    //Engine.path
+    //pQmlContext->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
+    //pQmlContext->setContextProperty("applicationFilePath", QGuiApplication::applicationFilePath());
+    //pQmlContext->setContextProperty("QDircurrentpath", QDir::currentPath());
+    //pQmlContext->setContextProperty("QDirRootPath", QDir::rootPath());
+    //pQmlContext->setContextProperty("QDirHomePath", QDir::homePath());
     //
     pQmlContext->setContextProperty("CQmlObjs",CQmlObjs::Instance());
     //Engine.Global
     pQmlContext->setContextProperty("Global",GlobalVariant::Instance());
     //Resource loadSkin
     pQmlContext->setContextProperty("Resource", m_res);
-    
+    //
+    qDebug() << "-QuickViewReloaderWrapper::setContextProperies()";
 }
 
-void EngineReloaderWrapper::registerToQml()
+void QuickViewReloaderWrapper::registerToQml()
 {
-    qDebug() << "EngineReloaderWrapper::registerToQml()";
-
+    qDebug() << "+QuickViewReloaderWrapper::registerToQml()";
+   
+    qDebug() << "-QuickViewReloaderWrapper::registerToQml()";
 }
 
-void EngineReloaderWrapper::beforeLoad()
+void QuickViewReloaderWrapper::beforeLoad()
 {
-    qDebug() << "EngineReloaderWrapper::beforeLoad()";
-
+    qDebug() << "QuickViewReloaderWrapper::beforeLoad()";
     setContextProperies(m_qmlContext);
     registerToQml();
 }
 
-void EngineReloaderWrapper::afterLoad()
+void QuickViewReloaderWrapper::afterLoad()
 {
-    qDebug() << "EngineReloaderWrapper::afterLoad()";
+    qDebug() << "QuickViewReloaderWrapper::afterLoad()";
 
     //root qml
     QObject * rootObject = (QObject *)this->rootObject();
     CQmlObjs::Instance()->SetRootObject( rootObject );
 
+    CKroemWes::Instance()->OnInit();
+    
     QVariant returnedValue;
     QVariant file = "Hello from C++";
     QMetaObject::invokeMethod(rootObject, "initQmlLoader",
             Q_RETURN_ARG(QVariant, returnedValue),
             Q_ARG(QVariant, file));
-}
-
-void EngineReloaderWrapper::setReloadSubQml( QString qsFile )
-{
-    qDebug() << "EngineReloaderWrapper::setReloadSubQml" << qsFile;
-
+    //for quit
+    QObject::connect(m_view->engine() , SIGNAL(quit()), QApplication::instance(), SLOT(quit()));
 }
