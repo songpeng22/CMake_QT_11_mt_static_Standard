@@ -74,7 +74,7 @@
 
 #endif
 
-#if 1
+#if 0
 /*
  * QT
  */
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-#elif 0
+#elif 1
 
 int main(int argc, char *argv[])
 {

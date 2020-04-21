@@ -5,7 +5,7 @@
 #include <QDir>
 //
 #include "GlobalVariant.h"
-#include "KroemWes.h"
+#include "QmlObjs.h"
 
 QuickViewReloaderWrapper::QuickViewReloaderWrapper()
 {
@@ -112,8 +112,6 @@ void QuickViewReloaderWrapper::afterLoad()
     //root qml
     QObject * rootObject = (QObject *)this->rootObject();
     CQmlObjs::Instance()->SetRootObject( rootObject );
-
-    CKroemWes::Instance()->OnInit();
     
     QVariant returnedValue;
     QVariant file = "Hello from C++";

@@ -1,0 +1,30 @@
+<RCC>
+	<qresource prefix="/">
+	<file>qtquickcontrols2.conf</file>
+	<file>BusyIndicator_Standard.qml</file>
+	<file>BusyIndicator_Standard_Test.qml</file>
+	<file>BusyIndicator_Style.qml</file>
+	<file>Button_Standard.qml</file>
+	<file>Button_Standard_Test.qml</file>
+	<file>CheckBox_Standard.qml</file>
+	<file>CheckBox_Standard_Test.qml</file>
+	<file>Config.qml</file>
+	<file>Item_Standard.qml</file>
+	<file>Label_Standard.qml</file>
+	<file>Label_Standard_Test.qml</file>
+	<file>Material_demo.qml</file>
+	<file>Pane_Standard.qml</file>
+	<file>Pane_Standard_Test.qml</file>
+	<file>Rectangle_Standard.qml</file>
+	<file>Rectangle_Standard_Test.qml</file>
+	<file>TabBar_Standard.qml</file>
+	<file>TabBar_Standard_Test.qml</file>
+	<file>TabButton_Standard.qml</file>
+	<file>TextEdit_Standard.qml</file>
+	<file>TextEdit_Standard_Test.qml</file>
+	<file>TextField_Standard.qml</file>
+	<file>TextField_Standard_Test.qml</file>
+	<file>Text_Standard.qml</file>
+	<file>Text_Standard_Test.qml</file>
+	</qresource>
+</RCC>

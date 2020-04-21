@@ -5,6 +5,7 @@
 
 //
 #include "GlobalVariant.h"
+#include "QmlObjs.h"
 
 EngineReloaderWrapper::EngineReloaderWrapper()
 {

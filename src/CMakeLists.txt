@@ -20,6 +20,14 @@ else()
     message( "CMAKE_PREFIX_PATH from env: " ${CMAKE_PREFIX_PATH} )
 endif( NOT DEFINED CMAKE_PREFIX_PATH )
 
+# Python part
+message( "---------------------------Python part----------------------------------" )
+
+message(STATUS "This is rcc dir " ${Solution_SOURCE_DIR}/../skins/)
+execute_process(COMMAND python3 rcc_build.py
+                WORKING_DIRECTORY ${Solution_SOURCE_DIR}/../skins/ RESULT_VARIABLE rv)
+message("rcc_build.py return value='${rv}'")
+
 # Solution Settings
 message( "---------------------------Solution part----------------------------------" )
 project(Solution)
@@ -239,23 +247,17 @@ endif(CMAKE_BUILD_TYPE STREQUAL Debug AND ${QT_STATIC})
 
 # Populate a CMake variable with the sources
 FILE(GLOB project_sources
-    main.cpp
-    EngineReloader.cpp
-    EngineReloaderWrapper.cpp
-    Widget.cpp
+    *.cpp
 )
 
 FILE(GLOB project_headers
     *.h
 )
 
-SET( project_resources 
-    choose_qt_sdk.cmake
-    recursive_search.cmake
-	force_mtd.cmake
-    main.qrc
-    main.qml
-    method2.qml
+FILE(GLOB project_resources 
+    *.cmake
+    *.qrc
+    *.qml
 )
 
 SOURCE_GROUP("Source Files" FILES ${project_sources})
@@ -293,7 +295,6 @@ target_link_libraries( ${project_name}
     ${QPLGDIR_namelist}
     ${QQMLDIR_namelist}
 ]]
-
 
 )
 
